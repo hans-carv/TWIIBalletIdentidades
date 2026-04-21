@@ -5,6 +5,12 @@ API RESTful diseñada bajo una arquitectura de Monolito Modular para gestionar l
 * Java 21
 * Spring Boot (Web, Security, Data JPA)
 * PostgreSQL / MySQL (Base de datos)
+
+API RESTful diseñada bajo una arquitectura de Monolito Modular para gestionar la cartelera (las presentaciones que se realiza), usuarios y taquilla de un sistema de Ballet.
+
+* Java 21
+* Spring Boot (Web, Security, Data JPA)
+* MySQL (Base de datos)
 * JWT (Autenticación y Autorización)
 * Swagger / OpenAPI (Documentación)
 
