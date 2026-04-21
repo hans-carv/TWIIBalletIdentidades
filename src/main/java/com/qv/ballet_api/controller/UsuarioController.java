@@ -1,48 +1,26 @@
 package com.qv.ballet_api.controller;
 
-import com.qv.ballet_api.entity.Compra;
 import com.qv.ballet_api.entity.Usuario;
-import com.qv.ballet_api.repository.CompraRepository;
 import com.qv.ballet_api.repository.UsuarioRepository;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/admin/usuarios")
-@Tag(name = "Historial de canjes", description = "Información de todos los canjes que hizo el usuario")
+@Tag(name = "Gestión de Usuarios", description = "Operaciones administrativas sobre cuentas de usuario")
 public class UsuarioController {
 
-    private final CompraRepository compraRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioController(CompraRepository compraRepository, UsuarioRepository usuarioRepository) {
-        this.compraRepository = compraRepository;
+    public UsuarioController(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @Hidden
-    @GetMapping("/{usuarioID}/historial")
-    @Operation(summary = "Auditar compras de un cliente", description = "Devuelve todos los tickets de un usuario (Requiere Admin)")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getHistorial(@PathVariable Long usuarioID) {
-
-        Usuario cliente = usuarioRepository.findById(usuarioID).orElse(null);
-
-        if (cliente == null) {
-            return ResponseEntity.badRequest().body("Error: El usuario con ID " + usuarioID + " no existe.");
-        }
-
-        List<Compra> historial = compraRepository.findByUsuario(cliente);
-        return ResponseEntity.ok(historial);
-    }
-
     @PutMapping("/{id}/ascender")
+    @Operation(summary = "Ascender a Administrador", description = "Cambia el rol de un usuario a ROLE_ADMIN (Requiere privilegios de Admin)")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> ascenderAAdmin(@PathVariable Long id) {
 
